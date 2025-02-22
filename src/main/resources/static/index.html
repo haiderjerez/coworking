@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Reservas - Coworking</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Reservas de Espacios de Coworking</h1>
+    </header>
+
+    <main>
+        <section id="reservation-form">
+            <h2>Hacer una Reserva</h2>
+            <form th:action="@{/reservations}" th:object="${reservation}" method="post">
+                <label for="userName">Nombre:</label>
+                <input type="text" id="userName" th:field="*{userName}" required>
+
+                <label for="spaceId">ID del Espacio:</label>
+                <input type="number" id="spaceId" th:field="*{spaceId}" required>
+
+                <label for="startTime">Inicio:</label>
+                <input type="datetime-local" id="startTime" th:field="*{startTime}" required>
+
+                <label for="endTime">Fin:</label>
+                <input type="datetime-local" id="endTime" th:field="*{endTime}" required>
+
+                <button type="submit">Reservar</button>
+            </form>
+        </section>
+
+        <section id="reservations">
+            <h2>Lista de Reservas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Espacio</th>
+                        <th>Inicio</th>
+                        <th>Fin</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="reservation : ${reservations}">
+                        <td th:text="${reservation.id}"></td>
+                        <td th:text="${reservation.userName}"></td>
+                        <td th:text="${reservation.spaceId}"></td>
+                        <td th:text="${reservation.startTime}"></td>
+                        <td th:text="${reservation.endTime}"></td>
+                        <td>
+                            <a th:href="@{/reservations/delete/{id}(id=${reservation.id})}" class="delete-btn">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <script src="../static/js/app.js"></script>
+</body>
+</html>
